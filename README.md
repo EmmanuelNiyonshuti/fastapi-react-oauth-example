@@ -5,8 +5,8 @@ example for OAuth 2.0 login implementation with Google and GitHub using FastAPI 
 ## Run the application
 ```bash
 # Clone and setup
-git clone <your-repo-url>
-cd <repo-name>
+git clone git@github.com:EmmanuelNiyonshuti/fastapi-react-oauth-example.git
+cd fastapi-react-oauth-example
 cp .env.example .env  # Add your OAuth credentials here and your database credentials
 
 # With Docker
