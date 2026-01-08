@@ -1,6 +1,6 @@
 # FastAPI + React OAuth 2.0 Example
 
-example for OAuth 2.0 login implementation with Google and GitHub using FastAPI and React
+Social Login (Google & GitHub) example in a FastAPI and React app using OAuth2.0
 
 ## Run the application
 ```bash
@@ -26,6 +26,6 @@ npm install
 npm run dev
 ```
 
-for setting up oauth2.0 providers in this application and getting credentials you can use these urls:
+for setting up oauth2.0 providers(google && github) in this application and getting credentials you can use these urls:
 - Google: https://console.cloud.google.com/apis/credentials
 - GitHub: https://github.com/settings/developers
