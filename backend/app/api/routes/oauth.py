@@ -34,13 +34,11 @@ def oauth2_authorize(provider: Literal["google", "github"], request: Request):
         }
     )
 
-    # redirect the user to the OAuth2 provider authorization URL
+    # redirect the user to the provider's authorization server
     return RedirectResponse(url=provider_data["authorize_url"] + "?" + qs)
 
 
-@router.get(
-    "/callback/{provider}"
-)  # this route is added on the provider as our client redirect_url
+@router.get("/callback/{provider}")  # added on the provider as our redirect_url
 async def oauth2_callback(
     provider: Literal["google", "github"], request: Request, db_conn: dbConnDep
 ):
@@ -51,8 +49,9 @@ async def oauth2_callback(
         )
 
     query_params = request.query_params
-    # if there was an authentication error, flash the error messages and exit
-    if "error" in query_params:
+    if (
+        "error" in query_params
+    ):  # check if we got an error back from user authorization and their consent
         error_description = query_params.get(
             "error_description", query_params.get("error")
         )
@@ -60,12 +59,12 @@ async def oauth2_callback(
             f"{settings.FRONTEND_URL}/auth/callback?error={error_description}"
         )
 
-    # state parameter has to match the one we created in the authorization request so they won't fool us
+    # check for state parameter(has to match the one we created in the authorization request so they won't fool us)
     if query_params["state"] != request.session.get("oauth2_state"):
         return RedirectResponse(
             f"{settings.FRONTEND_URL}/auth/callback?error=invalid_state"
         )
-    # look for the authorization code so we can use it to get the access_token
+    # look for the authorization code so we can exchange for access_token
     if "code" not in query_params:
         return RedirectResponse(f"{settings.FRONTEND_URL}/auth/callback?error=no_code")
 
